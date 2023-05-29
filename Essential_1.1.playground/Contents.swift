@@ -1,5 +1,13 @@
 import UIKit
 
+// Main Module
+extension ApiClient {
+    func login(completion: (LoggedInUser) -> Void) {}
+}
+extension ApiClient {
+    func loadFeed(completion: ([FeedItem]) -> Void) {}
+}
+
 // Api Module
 class ApiClient {
     static let shared = ApiClient()
@@ -8,13 +16,10 @@ class ApiClient {
 
 // Login Module
 struct LoggedInUser {}
-extension ApiClient {
-    func login(completion: (LoggedInUser) -> Void) {}
-}
 class LoginViewController: UIViewController {
-    var api = ApiClient.shared
+    var login: (((LoggedInUser) -> Void) -> Void)?
     func didTapLogInButton() {
-        api.login() { user in
+        login? { user in
             //show feed  screen
         }
     }
@@ -22,14 +27,12 @@ class LoginViewController: UIViewController {
 
 // Feed Module
 struct FeedItem {}
-extension ApiClient {
-    func loadFeed(completion: ([FeedItem]) -> Void) {}
-}
 class FeedViewController: UIViewController {
-    var api = ApiClient.shared
+    //var api = ApiClient.shared
+    var loadFeed: (((FeedItem) -> Void) -> Void)?
     override func viewDidLoad() {
         super.viewDidLoad()
-        api.loadFeed { loadedItems in
+        loadFeed? { loadedItems in
             //update UI
         }
     }
